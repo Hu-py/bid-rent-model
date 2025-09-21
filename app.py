@@ -77,7 +77,8 @@ def bid_rent_model(P_com, C_com, P_res, C_res, P_ind, C_ind, P_agr, C_agr):
     return fig1, fig2, land_use_at_d, d
 
 
-st.title("Bid-Rent Model (Web App)")
+
+st.title("Bid-Rent Model")
 st.sidebar.header("Model Parameters")
 
 # ==============================
@@ -87,41 +88,41 @@ scenario = st.sidebar.selectbox(
     "Choose a scenario",
     [
         "Custom",
-        "Scenario 1: Classic Concentric Model",
-        "Scenario 2: Commercial Advantage (CBD)",
-        "Scenario 3: Industrial-Oriented City",
-        "Scenario 4: Low Transport Cost Society",
+        "Scenario 1: Classic Concentric",
+        "Scenario 2: CBD Dominance",
+        "Scenario 3: Industrial-Oriented",
+        "Scenario 4: Low Transport Costs",
         "Scenario 5: High Residential Demand"
     ]
 )
 
-if scenario == "Scenario 1: Classic Concentric Model":
+if scenario == "Scenario 1: Classic Concentric":
     P_com, C_com = 100, 5
     P_res, C_res = 70, 2
     P_ind, C_ind = 50, 1
     P_agr, C_agr = 30, 0.5
-    desc = "Commercial dominates the core, followed by Residential, then Industrial, then Agricultural — the classic textbook model."
+    desc = "Commercial dominates the core, followed by Residential, then Industrial, then Agricultural."
 
-elif scenario == "Scenario 2: Commercial Advantage (CBD)":
+elif scenario == "Scenario 2: CBD Dominance":
     P_com, C_com = 150, 6
     P_res, C_res = 80, 2
     P_ind, C_ind = 60, 1
     P_agr, C_agr = 30, 0.5
-    desc = "Commercial expands strongly, residential compressed, industry and agriculture pushed outward — typical of a large city CBD."
+    desc = "Commercial expands strongly, squeezing residential, industry and agriculture pushed outward."
 
-elif scenario == "Scenario 3: Industrial-Oriented City":
+elif scenario == "Scenario 3: Industrial-Oriented":
     P_com, C_com = 80, 4
     P_res, C_res = 60, 2
     P_ind, C_ind = 90, 1
     P_agr, C_agr = 30, 0.5
-    desc = "Industry extends outward from center, compressing residential; an industrial-centered urban pattern."
+    desc = "Industry extends outward from center, compressing residential; an industrial-centered pattern."
 
-elif scenario == "Scenario 4: Low Transport Cost Society":
+elif scenario == "Scenario 4: Low Transport Costs":
     P_com, C_com = 100, 2
     P_res, C_res = 80, 1.5
     P_ind, C_ind = 70, 1
     P_agr, C_agr = 40, 0.3
-    desc = "Flatter rent gradients, blurred boundaries between land uses — reflects impact of modern transport."
+    desc = "Flatter rent gradients, blurred land-use boundaries — reflects impact of modern transport."
 
 elif scenario == "Scenario 5: High Residential Demand":
     P_com, C_com = 90, 5
@@ -141,6 +142,14 @@ else:
     P_agr = st.sidebar.slider("Agricultural P", 10, 60, 30, 5)
     C_agr = st.sidebar.slider("Agricultural C", 0.1, 2.0, 0.5, 0.1)
     desc = "Custom scenario — adjust parameters manually."
+
+# ==============================
+# 在主界面显示场景标题
+# ==============================
+if scenario != "Custom":
+    st.subheader(scenario)
+
+st.write(desc)
 
 fig1, fig2, land_use_at_d, d = bid_rent_model(
     P_com, C_com,
