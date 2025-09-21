@@ -84,6 +84,8 @@ st.sidebar.header("Model Parameters")
 # ==============================
 # 场景选择
 # ==============================
+st.sidebar.header("Model Parameters")
+
 scenario = st.sidebar.selectbox(
     "Choose a scenario",
     [
@@ -96,52 +98,64 @@ scenario = st.sidebar.selectbox(
     ]
 )
 
-if scenario == "Scenario 1: Classic Concentric":
-    P_com, C_com = 100, 5
-    P_res, C_res = 70, 2
-    P_ind, C_ind = 50, 1
-    P_agr, C_agr = 30, 0.5
-    desc = "Commercial dominates the core, followed by Residential, then Industrial, then Agricultural."
+# 默认参数（Custom 模式的起始值）
+default_params = {
+    "Commercial": (100, 5),
+    "Residential": (70, 2),
+    "Industrial": (50, 1),
+    "Agricultural": (30, 0.5)
+}
 
-elif scenario == "Scenario 2: CBD Dominance":
-    P_com, C_com = 150, 6
-    P_res, C_res = 80, 2
-    P_ind, C_ind = 60, 1
-    P_agr, C_agr = 30, 0.5
-    desc = "Commercial expands strongly, squeezing residential, industry and agriculture pushed outward."
+# 不同场景的预设
+scenarios = {
+    "Scenario 1: Classic Concentric": {
+        "Commercial": (100, 5),
+        "Residential": (70, 2),
+        "Industrial": (50, 1),
+        "Agricultural": (30, 0.5)
+    },
+    "Scenario 2: CBD Dominance": {
+        "Commercial": (150, 6),
+        "Residential": (80, 2),
+        "Industrial": (60, 1),
+        "Agricultural": (30, 0.5)
+    },
+    "Scenario 3: Industrial-Oriented": {
+        "Commercial": (80, 4),
+        "Residential": (60, 2),
+        "Industrial": (90, 1),
+        "Agricultural": (30, 0.5)
+    },
+    "Scenario 4: Low Transport Costs": {
+        "Commercial": (100, 2),
+        "Residential": (80, 1.5),
+        "Industrial": (70, 1),
+        "Agricultural": (40, 0.3)
+    },
+    "Scenario 5: High Residential Demand": {
+        "Commercial": (90, 5),
+        "Residential": (120, 2.5),
+        "Industrial": (70, 1),
+        "Agricultural": (30, 0.5)
+    }
+}
 
-elif scenario == "Scenario 3: Industrial-Oriented":
-    P_com, C_com = 80, 4
-    P_res, C_res = 60, 2
-    P_ind, C_ind = 90, 1
-    P_agr, C_agr = 30, 0.5
-    desc = "Industry extends outward from center, compressing residential; an industrial-centered pattern."
+# 选择参数集
+params = scenarios.get(scenario, default_params)
 
-elif scenario == "Scenario 4: Low Transport Costs":
-    P_com, C_com = 100, 2
-    P_res, C_res = 80, 1.5
-    P_ind, C_ind = 70, 1
-    P_agr, C_agr = 40, 0.3
-    desc = "Flatter rent gradients, blurred land-use boundaries — reflects impact of modern transport."
+# 用滑块显示，初始值取场景数值
+P_com = st.sidebar.slider("Commercial P", 50, 150, params["Commercial"][0], 5)
+C_com = st.sidebar.slider("Commercial C", 0.5, 10.0, params["Commercial"][1], 0.5)
 
-elif scenario == "Scenario 5: High Residential Demand":
-    P_com, C_com = 90, 5
-    P_res, C_res = 120, 2.5
-    P_ind, C_ind = 70, 1
-    P_agr, C_agr = 30, 0.5
-    desc = "Residential dominates over a wide range; commercial limited to core, industry/agriculture squeezed outward."
+P_res = st.sidebar.slider("Residential P", 30, 120, params["Residential"][0], 5)
+C_res = st.sidebar.slider("Residential C", 0.5, 5.0, params["Residential"][1], 0.5)
 
-else:
-    # Custom sliders
-    P_com = st.sidebar.slider("Commercial P", 50, 150, 100, 5)
-    C_com = st.sidebar.slider("Commercial C", 0.5, 10.0, 5.0, 0.5)
-    P_res = st.sidebar.slider("Residential P", 30, 120, 70, 5)
-    C_res = st.sidebar.slider("Residential C", 0.5, 5.0, 2.0, 0.5)
-    P_ind = st.sidebar.slider("Industrial P", 20, 100, 50, 5)
-    C_ind = st.sidebar.slider("Industrial C", 0.1, 3.0, 1.0, 0.1)
-    P_agr = st.sidebar.slider("Agricultural P", 10, 60, 30, 5)
-    C_agr = st.sidebar.slider("Agricultural C", 0.1, 2.0, 0.5, 0.1)
-    desc = "Custom scenario — adjust parameters manually."
+P_ind = st.sidebar.slider("Industrial P", 20, 100, params["Industrial"][0], 5)
+C_ind = st.sidebar.slider("Industrial C", 0.1, 3.0, params["Industrial"][1], 0.1)
+
+P_agr = st.sidebar.slider("Agricultural P", 10, 60, params["Agricultural"][0], 5)
+C_agr = st.sidebar.slider("Agricultural C", 0.1, 2.0, params["Agricultural"][1], 0.1)
+
 
 # ==============================
 # 在主界面显示场景标题
