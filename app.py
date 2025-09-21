@@ -152,16 +152,16 @@ desc = params["desc"]
 
 # 用滑块显示，初始值取场景数值
 P_com = st.sidebar.slider("Commercial P", 50, 150, params["Commercial"][0], 5)
-C_com = st.sidebar.slider("Commercial C", 0.5, 10.0, params["Commercial"][1], 0.5)
+C_com = st.sidebar.slider("Commercial C", 0.5, 10.0, float(params["Commercial"][1]), 0.5)
 
 P_res = st.sidebar.slider("Residential P", 30, 120, params["Residential"][0], 5)
-C_res = st.sidebar.slider("Residential C", 0.5, 5.0, params["Residential"][1], 0.5)
+C_res = st.sidebar.slider("Residential C", 0.5, 5.0, float(params["Residential"][1]), 0.5)
 
 P_ind = st.sidebar.slider("Industrial P", 20, 100, params["Industrial"][0], 5)
-C_ind = st.sidebar.slider("Industrial C", 0.1, 3.0, params["Industrial"][1], 0.1)
+C_ind = st.sidebar.slider("Industrial C", 0.1, 3.0, float(params["Industrial"][1]), 0.1)
 
 P_agr = st.sidebar.slider("Agricultural P", 10, 60, params["Agricultural"][0], 5)
-C_agr = st.sidebar.slider("Agricultural C", 0.1, 2.0, params["Agricultural"][1], 0.1)
+C_agr = st.sidebar.slider("Agricultural C", 0.1, 2.0, float(params["Agricultural"][1]), 0.1)
 
 # ==============================
 # 在主界面显示场景标题和描述
