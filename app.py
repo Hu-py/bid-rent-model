@@ -172,8 +172,3 @@ for i in range(1, len(d)):
         start_d = d[i]
 st.write(f"**{current_use}**: {start_d:.1f} km – {d[-1]:.1f} km")
 
-# ==============================
-# 显示场景说明
-# ==============================
-st.subheader("Scenario Description")
-st.write(desc)
