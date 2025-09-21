@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
-st.write("✅ App loaded successfully")
 
 # ==============================
 # 定义模型函数
@@ -81,7 +80,7 @@ def bid_rent_model(P_com, C_com, P_res, C_res, P_ind, C_ind, P_agr, C_agr):
 # ==============================
 # Streamlit 界面
 # ==============================
-st.title("Bid-Rent Model (Web App)")
+st.title("Bid-Rent Model")
 
 st.sidebar.header("Model Parameters")
 
