@@ -142,6 +142,27 @@ else:
     C_agr = st.sidebar.slider("Agricultural C", 0.1, 2.0, 0.5, 0.1)
     desc = "Custom scenario — adjust parameters manually."
 
+fig1, fig2, land_use_at_d, d = bid_rent_model(
+    P_com, C_com,
+    P_res, C_res,
+    P_ind, C_ind,
+    P_agr, C_agr
+)
+
+st.pyplot(fig1)
+st.pyplot(fig2)
+
+st.subheader("Dominant Intervals")
+current_use = land_use_at_d[0]
+start_d = 0
+for i in range(1, len(d)):
+    if land_use_at_d[i] != current_use:
+        end_d = d[i]
+        st.write(f"**{current_use}**: {start_d:.1f} km – {end_d:.1f} km")
+        current_use = land_use_at_d[i]
+        start_d = d[i]
+st.write(f"**{current_use}**: {start_d:.1f} km – {d[-1]:.1f} km")
+
 # ==============================
 # 显示场景说明
 # ==============================
