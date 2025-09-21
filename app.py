@@ -77,15 +77,15 @@ def bid_rent_model(P_com, C_com, P_res, C_res, P_ind, C_ind, P_agr, C_agr):
     return fig1, fig2, land_use_at_d, d
 
 
-
+# ==============================
+# Streamlit 界面
+# ==============================
 st.title("Bid-Rent Model")
 st.sidebar.header("Model Parameters")
 
 # ==============================
 # 场景选择
 # ==============================
-st.sidebar.header("Model Parameters")
-
 scenario = st.sidebar.selectbox(
     "Choose a scenario",
     [
@@ -103,7 +103,8 @@ default_params = {
     "Commercial": (100, 5),
     "Residential": (70, 2),
     "Industrial": (50, 1),
-    "Agricultural": (30, 0.5)
+    "Agricultural": (30, 0.5),
+    "desc": "Custom scenario — adjust parameters manually."
 }
 
 # 不同场景的预设
@@ -112,36 +113,42 @@ scenarios = {
         "Commercial": (100, 5),
         "Residential": (70, 2),
         "Industrial": (50, 1),
-        "Agricultural": (30, 0.5)
+        "Agricultural": (30, 0.5),
+        "desc": "Commercial dominates the core, then Residential, Industrial, and Agricultural."
     },
     "Scenario 2: CBD Dominance": {
         "Commercial": (150, 6),
         "Residential": (80, 2),
         "Industrial": (60, 1),
-        "Agricultural": (30, 0.5)
+        "Agricultural": (30, 0.5),
+        "desc": "CBD expands strongly, squeezing housing and pushing industry/agriculture outward."
     },
     "Scenario 3: Industrial-Oriented": {
         "Commercial": (80, 4),
         "Residential": (60, 2),
         "Industrial": (90, 1),
-        "Agricultural": (30, 0.5)
+        "Agricultural": (30, 0.5),
+        "desc": "Industry extends outward from center, compressing residential; an industrial-centered pattern."
     },
     "Scenario 4: Low Transport Costs": {
         "Commercial": (100, 2),
         "Residential": (80, 1.5),
         "Industrial": (70, 1),
-        "Agricultural": (40, 0.3)
+        "Agricultural": (40, 0.3),
+        "desc": "Flatter rent gradients, blurred land-use boundaries — reflects impact of modern transport."
     },
     "Scenario 5: High Residential Demand": {
         "Commercial": (90, 5),
         "Residential": (120, 2.5),
         "Industrial": (70, 1),
-        "Agricultural": (30, 0.5)
+        "Agricultural": (30, 0.5),
+        "desc": "Residential dominates widely; commercial limited to core, industry/agriculture squeezed outward."
     }
 }
 
 # 选择参数集
 params = scenarios.get(scenario, default_params)
+desc = params["desc"]
 
 # 用滑块显示，初始值取场景数值
 P_com = st.sidebar.slider("Commercial P", 50, 150, params["Commercial"][0], 5)
@@ -156,15 +163,16 @@ C_ind = st.sidebar.slider("Industrial C", 0.1, 3.0, params["Industrial"][1], 0.1
 P_agr = st.sidebar.slider("Agricultural P", 10, 60, params["Agricultural"][0], 5)
 C_agr = st.sidebar.slider("Agricultural C", 0.1, 2.0, params["Agricultural"][1], 0.1)
 
-
 # ==============================
-# 在主界面显示场景标题
+# 在主界面显示场景标题和描述
 # ==============================
 if scenario != "Custom":
     st.subheader(scenario)
-
 st.write(desc)
 
+# ==============================
+# 调用模型并展示结果
+# ==============================
 fig1, fig2, land_use_at_d, d = bid_rent_model(
     P_com, C_com,
     P_res, C_res,
@@ -175,6 +183,9 @@ fig1, fig2, land_use_at_d, d = bid_rent_model(
 st.pyplot(fig1)
 st.pyplot(fig2)
 
+# ==============================
+# 输出主导区间
+# ==============================
 st.subheader("Dominant Intervals")
 current_use = land_use_at_d[0]
 start_d = 0
@@ -185,4 +196,3 @@ for i in range(1, len(d)):
         current_use = land_use_at_d[i]
         start_d = d[i]
 st.write(f"**{current_use}**: {start_d:.1f} km – {d[-1]:.1f} km")
-
