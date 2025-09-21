@@ -6,6 +6,7 @@ exit()
 import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
+st.write("✅ App loaded successfully")
 
 # ==============================
 # 定义模型函数
