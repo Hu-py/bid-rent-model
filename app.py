@@ -77,37 +77,73 @@ def bid_rent_model(P_com, C_com, P_res, C_res, P_ind, C_ind, P_agr, C_agr):
     return fig1, fig2, land_use_at_d, d
 
 
-# ==============================
-# Streamlit 界面
-# ==============================
-st.title("Bid-Rent Model")
-
+st.title("Bid-Rent Model (Web App)")
 st.sidebar.header("Model Parameters")
 
-P_com = st.sidebar.slider("Commercial P", 50, 150, 100, 5)
-C_com = st.sidebar.slider("Commercial C", 0.5, 10.0, 5.0, 0.5)
-P_res = st.sidebar.slider("Residential P", 30, 120, 70, 5)
-C_res = st.sidebar.slider("Residential C", 0.5, 5.0, 2.0, 0.5)
-P_ind = st.sidebar.slider("Industrial P", 20, 100, 50, 5)
-C_ind = st.sidebar.slider("Industrial C", 0.1, 3.0, 1.0, 0.1)
-P_agr = st.sidebar.slider("Agricultural P", 10, 60, 30, 5)
-C_agr = st.sidebar.slider("Agricultural C", 0.1, 2.0, 0.5, 0.1)
+# ==============================
+# 场景选择
+# ==============================
+scenario = st.sidebar.selectbox(
+    "Choose a scenario",
+    [
+        "Custom",
+        "Scenario 1: Classic Concentric Model",
+        "Scenario 2: Commercial Advantage (CBD)",
+        "Scenario 3: Industrial-Oriented City",
+        "Scenario 4: Low Transport Cost Society",
+        "Scenario 5: High Residential Demand"
+    ]
+)
 
-fig1, fig2, land_use_at_d, d = bid_rent_model(P_com, C_com, P_res, C_res, P_ind, C_ind, P_agr, C_agr)
+if scenario == "Scenario 1: Classic Concentric Model":
+    P_com, C_com = 100, 5
+    P_res, C_res = 70, 2
+    P_ind, C_ind = 50, 1
+    P_agr, C_agr = 30, 0.5
+    desc = "Commercial dominates the core, followed by Residential, then Industrial, then Agricultural — the classic textbook model."
 
-st.pyplot(fig1)
-st.pyplot(fig2)
+elif scenario == "Scenario 2: Commercial Advantage (CBD)":
+    P_com, C_com = 150, 6
+    P_res, C_res = 80, 2
+    P_ind, C_ind = 60, 1
+    P_agr, C_agr = 30, 0.5
+    desc = "Commercial expands strongly, residential compressed, industry and agriculture pushed outward — typical of a large city CBD."
+
+elif scenario == "Scenario 3: Industrial-Oriented City":
+    P_com, C_com = 80, 4
+    P_res, C_res = 60, 2
+    P_ind, C_ind = 90, 1
+    P_agr, C_agr = 30, 0.5
+    desc = "Industry extends outward from center, compressing residential; an industrial-centered urban pattern."
+
+elif scenario == "Scenario 4: Low Transport Cost Society":
+    P_com, C_com = 100, 2
+    P_res, C_res = 80, 1.5
+    P_ind, C_ind = 70, 1
+    P_agr, C_agr = 40, 0.3
+    desc = "Flatter rent gradients, blurred boundaries between land uses — reflects impact of modern transport."
+
+elif scenario == "Scenario 5: High Residential Demand":
+    P_com, C_com = 90, 5
+    P_res, C_res = 120, 2.5
+    P_ind, C_ind = 70, 1
+    P_agr, C_agr = 30, 0.5
+    desc = "Residential dominates over a wide range; commercial limited to core, industry/agriculture squeezed outward."
+
+else:
+    # Custom sliders
+    P_com = st.sidebar.slider("Commercial P", 50, 150, 100, 5)
+    C_com = st.sidebar.slider("Commercial C", 0.5, 10.0, 5.0, 0.5)
+    P_res = st.sidebar.slider("Residential P", 30, 120, 70, 5)
+    C_res = st.sidebar.slider("Residential C", 0.5, 5.0, 2.0, 0.5)
+    P_ind = st.sidebar.slider("Industrial P", 20, 100, 50, 5)
+    C_ind = st.sidebar.slider("Industrial C", 0.1, 3.0, 1.0, 0.1)
+    P_agr = st.sidebar.slider("Agricultural P", 10, 60, 30, 5)
+    C_agr = st.sidebar.slider("Agricultural C", 0.1, 2.0, 0.5, 0.1)
+    desc = "Custom scenario — adjust parameters manually."
 
 # ==============================
-# 输出主导区间
+# 显示场景说明
 # ==============================
-st.subheader("Dominant Intervals")
-current_use = land_use_at_d[0]
-start_d = 0
-for i in range(1, len(d)):
-    if land_use_at_d[i] != current_use:
-        end_d = d[i]
-        st.write(f"**{current_use}**: {start_d:.1f} km – {end_d:.1f} km")
-        current_use = land_use_at_d[i]
-        start_d = d[i]
-st.write(f"**{current_use}**: {start_d:.1f} km – {d[-1]:.1f} km")
+st.subheader("Scenario Description")
+st.write(desc)
