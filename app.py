@@ -1,8 +1,3 @@
-import os
-os.system("streamlit run app.py --server.port 7860 --server.address 0.0.0.0")
-exit()
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
