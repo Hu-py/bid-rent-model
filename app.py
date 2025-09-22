@@ -196,3 +196,25 @@ for i in range(1, len(d)):
         current_use = land_use_at_d[i]
         start_d = d[i]
 st.write(f"**{current_use}**: {start_d:.1f} km – {d[-1]:.1f} km")
+
+# ==============================
+# 固定右下角标注
+# ==============================
+st.markdown(
+    """
+    <style>
+    .footer {
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+        font-size: 12px;
+        color: grey;
+        opacity: 0.8;
+    }
+    </style>
+    <div class="footer">
+        Produced by Centre for Urban Science and Planning, Tongji
+    </div>
+    """,
+    unsafe_allow_html=True
+)
