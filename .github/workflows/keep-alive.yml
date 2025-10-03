@@ -2,28 +2,13 @@ name: Keep Streamlit Alive
 
 on:
   schedule:
-    - cron: "*/60 * * * *"   # 每 10 分钟运行一次
-  workflow_dispatch:          # 手动运行按钮
-
-defaults:
-  run:
-    shell: bash
-    working-directory: ./
+    - cron: "*/60 * * * *"   # 每10分钟访问一次
+  workflow_dispatch:          # 手动运行
 
 jobs:
-  keep-alive:
+  ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-
-      - name: Install dependencies
-        run: pip install requests
-
-      - name: Run keep alive script
-        run: python keep_alive.py
+      - name: Ping Streamlit app
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" https://bid-rent-model-aj7q2woidzrypoxjgvpsaw.streamlit.app/
